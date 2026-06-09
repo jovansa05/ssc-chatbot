@@ -1,7 +1,70 @@
+import { useState } from "react";
 import { FaPaperPlane, FaRobot } from "react-icons/fa";
 import { IoSettingsSharp } from "react-icons/io5";
 
 function ChatbotPage() {
+  const [input, setInput] = useState("");
+
+  const [messages, setMessages] = useState([
+    {
+      sender: "bot",
+      text: "Halo! 👋 Ada yang bisa saya bantu terkait informasi akademik?",
+    },
+  ]);
+
+  const sendMessage = async () => {
+    if (!input.trim()) return;
+
+    const userText = input;
+
+    // tampilkan pesan user
+    setMessages((prev) => [
+      ...prev,
+      {
+        sender: "user",
+        text: userText,
+      },
+    ]);
+
+    setInput("");
+
+    try {
+      const response = await fetch(
+        "http://localhost:8000/chat",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message: userText,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      // tampilkan jawaban bot
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "bot",
+          text: data.answer,
+        },
+      ]);
+    } catch (error) {
+      console.error(error);
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "bot",
+          text: "Maaf, terjadi kesalahan saat menghubungi server.",
+        },
+      ]);
+    }
+  };
+
   return (
     <div className="chatbot-container">
       {/* Header */}
@@ -23,49 +86,44 @@ function ChatbotPage() {
       <div className="chat-area">
         <div className="chat-date">Hari Ini</div>
 
-        {/* Bot Message */}
-        <div className="message-row bot">
-          <div className="avatar">
-            <FaRobot />
-          </div>
+        {messages.map((msg, index) => (
+          <div
+            key={index}
+            className={`message-row ${
+              msg.sender === "user" ? "user" : "bot"
+            }`}
+          >
+            {msg.sender === "bot" && (
+              <div className="avatar">
+                <FaRobot />
+              </div>
+            )}
 
-          <div>
-            <div className="sender-name">SSC Assistant</div>
+            <div>
+              <div
+                className={`sender-name ${
+                  msg.sender === "user"
+                    ? "user-name"
+                    : ""
+                }`}
+              >
+                {msg.sender === "user"
+                  ? "Anda"
+                  : "SSC Assistant"}
+              </div>
 
-            <div className="message-bubble bot-bubble">
-              Halo! 👋
-              <br />
-              Ada yang bisa saya bantu terkait informasi akademik?
+              <div
+                className={`message-bubble ${
+                  msg.sender === "user"
+                    ? "user-bubble"
+                    : "bot-bubble"
+                }`}
+              >
+                {msg.text}
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* User Message */}
-        <div className="message-row user">
-          <div className="message-wrapper">
-            <div className="sender-name user-name">Anda</div>
-
-            <div className="message-bubble user-bubble">
-              Bagaimana prosedur pengajuan cuti?
-            </div>
-          </div>
-        </div>
-
-        {/* Bot Message */}
-        <div className="message-row bot">
-          <div className="avatar">
-            <FaRobot />
-          </div>
-
-          <div>
-            <div className="sender-name">SSC Assistant</div>
-
-            <div className="message-bubble bot-bubble">
-              Untuk pengajuan cuti akademik, mahasiswa dapat mengikuti
-              prosedur sesuai pedoman akademik yang berlaku.
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Input Area */}
@@ -73,9 +131,18 @@ function ChatbotPage() {
         <input
           type="text"
           placeholder="Ketik pertanyaan Anda..."
+          value={input}
+          onChange={(e) =>
+            setInput(e.target.value)
+          }
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              sendMessage();
+            }
+          }}
         />
 
-        <button>
+        <button onClick={sendMessage}>
           <FaPaperPlane />
         </button>
       </div>
