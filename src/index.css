@@ -1,0 +1,258 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  background-image: url("./assets/kampus-telkom.jpg");
+  background-size: cover;
+  background-position: center;
+
+  filter: blur(8px);
+  transform: scale(1.1);
+
+  z-index: -2;
+}
+
+body::after {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  z-index: -1;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.chatbot-container {
+  width: 82%;
+  max-width: 1100px;
+
+  height: 92vh;
+
+  margin: 25px auto;
+
+  background: white;
+
+  border-radius: 40px;
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+/* HEADER */
+
+.chat-header {
+  background: #c80000;
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+
+  padding: 25px 35px;
+}
+
+.logo-circle {
+  width: 80px;
+  height: 80px;
+
+  background: white;
+  color: black;
+
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: bold;
+}
+
+.header-text {
+  margin-left: 20px;
+}
+
+.header-text h1 {
+  font-size: 34px;
+}
+
+.header-text p {
+  font-size: 18px;
+}
+
+.admin-btn {
+  margin-left: auto;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  border: none;
+
+  color: white;
+
+  padding: 15px 25px;
+
+  border-radius: 15px;
+
+  cursor: pointer;
+
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  font-size: 18px;
+}
+
+/* CHAT */
+
+.chat-area {
+  flex: 1;
+
+  background: #f8f8f8;
+
+  padding: 30px;
+
+  overflow-y: auto;
+}
+
+.chat-date {
+  width: fit-content;
+
+  margin: 0 auto 40px;
+
+  background: #ececec;
+
+  padding: 10px 20px;
+
+  border-radius: 30px;
+}
+
+.message-row {
+  display: flex;
+
+  margin-bottom: 30px;
+}
+
+.avatar {
+  width: 55px;
+  height: 55px;
+
+  border-radius: 50%;
+
+  border: 2px solid red;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: red;
+
+  margin-right: 15px;
+}
+
+.sender-name {
+  font-weight: bold;
+  color: #c80000;
+
+  margin-bottom: 8px;
+}
+
+.user-name {
+  text-align: right;
+}
+
+.message-bubble {
+  padding: 22px;
+
+  border-radius: 20px;
+
+  max-width: 700px;
+
+  line-height: 1.8;
+
+  font-size: 19px;
+}
+
+.bot-bubble {
+  background: white;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.user {
+  justify-content: flex-end;
+}
+
+.message-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-bubble {
+  background: #fff1f1;
+}
+
+/* INPUT */
+
+.input-area {
+  background: #c80000;
+
+  padding: 18px;
+
+  display: flex;
+  gap: 15px;
+}
+
+.input-area input {
+  flex: 1;
+
+  border: none;
+
+  padding: 18px 25px;
+
+  border-radius: 18px;
+
+  font-size: 18px;
+
+  outline: none;
+}
+
+.input-area button {
+  width: 70px;
+  height: 60px;
+
+  border: none;
+
+  background: black;
+
+  color: white;
+
+  border-radius: 15px;
+
+  cursor: pointer;
+
+  font-size: 22px;
+}
